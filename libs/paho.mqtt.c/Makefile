@@ -15,69 +15,36 @@ PKG_SOURCE:=v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/eclipse/paho.mqtt.c/archive/refs/tags/$(PKG_VERSION)
 PKG_MD5SUM:=ce269af51541148c6e6a50f2763757e4
 
-PKG_LICENSE:=MIT
-PKG_LICENSE_FILES:=COPYING
-
-PKG_FIXUP:=autoreconf
-PKG_INSTALL:=1
-
-PKG_MAINTAINER:=Rui Almeida <rjmalmeida0@gmail.com>
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
-include $(INCLUDE_DIR)/cmake.mk
 
-CMAKE_OPTIONS = -DPAHO_BUILD_SAMPLES=TRUE -DPAHO_WITH_SSL=TRUE
-
-TARGET_CFLAGS += $(FPIC)
-
-define Package/paho.mqtt.c/Default
-  TITLE:= An Eclipse Paho C client library for MQTT for Windows, Linux and MacOS
-  URL:=http://eclipse.org/paho
-endef
-
-define Package/paho.mqtt.c/Default/description
-  An Eclipse Paho C client library for MQTT for Windows, Linux and MacOS
-endef
-
-define Package/libpaho.mqtt.c
-	$(call Package/paho.mqtt.c/Default)
+define Package/libpaho-mqtt-c
   SECTION:=libs
   CATEGORY:=Libraries
-  DEPENDS:=+libpthread +libopenssl
+  TITLE:=Eclipse Paho MQTT C Client Library
+  URL:=https://eclipse.org/paho/
+  DEPENDS:=+libc +libpthread +libssl
 endef
 
-define Package/libpaho.mqtt.c/description
-	$(call Package/paho.mqtt.c/Default/description)
+define Package/libpaho-mqtt-c/description
+  Eclipse Paho MQTT C Client Library
 endef
 
-define Package/paho.mqtt.c-cli
-	$(call Package/paho.mqtt.c/Default)
-  SECTION:=utils
-  CATEGORY:=Utilities
-  DEPENDS:=+libpaho.mqtt.c
-	TITLE+= (cli)
-endef
-
-define Package/paho.mqtt.c-cli/description
-	$(call Package/paho.mqtt.c/Default/description)
+define Build/Configure
+  $(call Build/Configure/Default,--prefix=/usr)
 endef
 
 define Build/InstallDev
-	$(INSTALL_DIR) $(1)/usr/include
-	$(CP) $(PKG_INSTALL_DIR)/usr/include/MQTT*.h $(1)/usr/include/
-	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libpaho-mqtt3*.so* $(1)/usr/lib/	
+  $(INSTALL_DIR) $(1)/usr/include
+  $(CP) $(PKG_BUILD_DIR)/src/*.h $(1)/usr/include/
+  $(INSTALL_DIR) $(1)/usr/lib
+  $(CP) $(PKG_BUILD_DIR)/build/output/* $(1)/usr/lib/
 endef
 
-define Package/libpaho.mqtt.c/install
-	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libpaho-mqtt3*.so* $(1)/usr/lib/	
-endef
-
-define Package/paho.mqtt.c-cli/install
-	$(INSTALL_DIR) $(1)/usr/bin
-	$(CP) $(PKG_INSTALL_DIR)/usr/bin/* $(1)/usr/bin/	
+define Package/libpaho-mqtt-c/install
+  $(INSTALL_DIR) $(1)/usr/lib
+  $(INSTALL_BIN) $(PKG_BUILD_DIR)/build/output/* $(1)/usr/lib/
 endef
 
 $(eval $(call BuildPackage,libpaho.mqtt.c))
-$(eval $(call BuildPackage,paho.mqtt.c-cli))
