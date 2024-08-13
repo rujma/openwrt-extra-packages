@@ -11,10 +11,8 @@ PKG_NAME:=paho.mqtt.c
 PKG_VERSION:=v1.3.11
 PKG_RELEASE:=1
 
-#https://github.com/eclipse/paho.mqtt.c/archive/refs/tags/v1.3.11.tar.gz
-
 PKG_SOURCE:=v$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://github.com/eclipse/paho.mqtt.c/archives/refs/tags/$(PKG_VERSION)
+PKG_SOURCE_URL:=https://github.com/eclipse/paho.mqtt.c/archive/refs/tags/$(PKG_VERSION)
 PKG_MD5SUM:=ce269af51541148c6e6a50f2763757e4
 
 PKG_LICENSE:=MIT
