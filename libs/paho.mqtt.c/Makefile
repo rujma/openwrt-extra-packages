@@ -8,12 +8,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=paho.mqtt.c
-PKG_VERSION:=1.3.1
+PKG_VERSION:=v1.3.11
 PKG_RELEASE:=1
 
+#https://github.com/eclipse/paho.mqtt.c/archive/refs/tags/v1.3.11.tar.gz
+
 PKG_SOURCE:=v$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://github.com/eclipse/paho.mqtt.c/archive/
-PKG_MD5SUM:=1b709fd42bf5f1e52ae8f07a620a2a83
+PKG_SOURCE_URL:=https://github.com/eclipse/paho.mqtt.c/archives/refs/tags/$(PKG_VERSION)
+PKG_MD5SUM:=ce269af51541148c6e6a50f2763757e4
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=COPYING
@@ -21,7 +23,7 @@ PKG_LICENSE_FILES:=COPYING
 PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
 
-PKG_MAINTAINER:=HaiBac Ngo <ngohaibac@gmail.com>
+PKG_MAINTAINER:=Rui Almeida <rjmalmeida0@gmail.com>
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
